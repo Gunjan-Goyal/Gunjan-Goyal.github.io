@@ -1,81 +1,24 @@
 ---
 layout: page
-title: project 1
-description: with background image
-img: assets/img/12.jpg
+title: Smart Terrain Detection 
+description: EfficientNet 
+img: assets/img/main1.jpg
 importance: 1
 category: work
-related_publications: true
+related_publications: false
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+Our project leverages EfficientNet for real-time surface terrain classification to enhance wheelchair navigation. Using a Raspberry Pi Camera, the system captures images of the ground and processes them through a deep learning model trained on the StreetSurfaceVis dataset. The model accurately classifies surfaces such as concrete, asphalt, unpaved paths, and paving stones, achieving 98.95% validation accuracy. This classification enables adaptive motorized assistance, ensuring smoother navigation over challenging terrains while preserving user control.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
+Model Architecture
+The StreetSurfaceVis dataset, with 9,122 annotated street-level images from Germany,
+was used to train and evaluate the terrain detection model. We fine-tuned pre-trained architecture- EfficientNet B0 to extract features. It is compiled using TensorFlow’s Keras API, optimizing the categorical cross-entropy loss and an adaptive learning strategy. There are different types of layers used in EfficientNet B0. <br>
+{% include figure.liquid path="assets/img/main11.jpg" title="Layers of EfficientNet Model" class="img-fluid rounded z-depth-1" %}
 
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
+The first 50 layers were frozen and the remaining layers were trainable. A Global Average Pooling (GAP) layer was added to reduce spatial dimensions, followed by a dense layer with 128 ReLU-activated neurons. A dropout layer (50%) was applied before the final softmax classification layer, which included neurons equal to the number of surface classes, that is, 17. The model was optimized using the Adam optimizer with a 0.0001 learning rate and trained using categorical cross-entropy loss over 20 epochs with a batch size of 32. <br>
+Early stopping (patience = 3) and model checkpointing based on validation loss were used to prevent overfitting and retain the best model.
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
+{% include figure.liquid path="assets/img/main12.jpg" title="Accuracy and Loss" class="img-fluid rounded z-depth-1" %}
+Performance Evaluaiton of the EfficientNet Model. 
 
-You can also put regular text between your rows of images, even citations {% cite einstein1950meaning %}.
-Say you wanted to write a bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, _bled_ for your project, and then... you reveal its glory in the next row of images.
-
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
-
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
-
-{% raw %}
-
-```html
-<div class="row justify-content-sm-center">
-  <div class="col-sm-8 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-  <div class="col-sm-4 mt-3 mt-md-0">
-    {% include figure.liquid path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-  </div>
-</div>
-```
-
-{% endraw %}
+Will be presenting the article "Context-Aware Adaptive Wheelchair: AI-Driven Terrain Detection for Mobility Assistance" at ICETESS-2025. The extended version will be published in a Springer, 2025, highlighting our advancements in ML-driven surface classification for wheelchair navigation.
